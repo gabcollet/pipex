@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 09:54:02 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/03 11:46:39 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/03 11:50:52 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int main(int argc, char **argv, char **envp)
 	int pid1;
 	int pid2;
 	
-	
 	if (argc >= 5)
 	{
 		if (pipe(fd) == -1)
@@ -109,12 +108,11 @@ int main(int argc, char **argv, char **envp)
 			error();
 		if(pid1 == 0)
 			child_process1(argv, envp, fd);
-		pid2 = fork(); //pk creer un fork apres ca fait ca?
+		pid2 = fork();
 		if (pid2 == -1)
 			error();
 		if(pid2 == 0)
 			child_process2(argv, envp, fd);
-		}
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(pid1, NULL, 0);
