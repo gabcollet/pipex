@@ -6,33 +6,46 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/08 11:07:37 by gcollet           #+#    #+#              #
-#    Updated: 2021/08/02 15:09:29 by gcollet          ###   ########.fr        #
+#    Updated: 2021/08/09 16:40:34 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= pipex.a
-SRCS 	= srcs/main.c
+PROG	= pipex
+
+SRCS 	= srcs/pipex.c srcs/utils.c srcs/path.c
 OBJS 	= ${SRCS:.c=.o}
+MAIN	= srcs/pipex.c
+
+SRCS_B	= srcs/pipex_bonus.c srcs/utils.c srcs/path.c
+OBJS_B	= ${SRCS_B:.c=.o}
+MAIN_B	= srcs/pipex_bonus.c
+
 HEADER	= -I./includes/
-MAIN	= srcs/main.c
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror -g
 
 .c.o:		%.o : %.c
-					@gcc ${CFLAGS} ${HEADER} -Imlx -c $< -o $(<:.c=.o)
+					@gcc ${CFLAGS} ${HEADER} -c $< -o $(<:.c=.o)
 
 $(NAME):	${OBJS}
-					@echo "\033[32m----Compiling lib----"
+					@echo "\033[33m----Compiling lib----"
 					@make re -C ./libft
 					@cp libft/libft.a ./$(NAME)
 					@ar -rcs ${NAME} ${OBJS}
-					@$(CC) $(NAME) ${MAIN} -o pipex
+					@$(CC) $(NAME) ${MAIN} -o ${PROG}
 					@echo "\033[32mPipex Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
 all: 		${NAME}
 
-bonus:		${NAME}
+bonus:		${OBJS_B}
+					@echo "\033[33m----Compiling lib----"
+					@make re -C ./libft
+					@cp libft/libft.a ./$(NAME)
+					@ar -rcs ${NAME} ${OBJS_B}
+					@$(CC) $(NAME) ${MAIN_B} -o ${PROG}
+					@echo "\033[32mPipex Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
 clean:
 					@make clean -C ./libft
@@ -41,12 +54,22 @@ clean:
 fclean: 	clean
 					@make fclean -C ./libft
 					@rm -f $(NAME)
-					@rm -f pipex
+					@rm -f ${PROG}
 					@echo "\n\033[31mDeleting EVERYTHING! ⌐(ಠ۾ಠ)¬\n"
 
 re:			fclean all
 
-war:
-					@echo "This is a bad choice, what about peace?"
+party:
+					@printf "\033c"
+					@echo "\n\033[35m♪┏(・o･)┛♪"
+					@sleep 1
+					@printf "\033c"
+					@echo "\033[1;33m♪┗(・o･)┓♪"
+					@sleep 1
+					@printf "\033c"
+					@echo "\n\033[36m♪┏(・o･)┛♪"
+					@sleep 1
+					@printf "\033c"
+					@echo "\033[34m♪┗(・o･)┓♪\n"
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re bonus party

@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/02 09:58:35 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/09 15:18:15 by gcollet          ###   ########.fr       */
+/*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
+/*   Updated: 2021/08/09 15:30:02 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "../includes/pipex.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include "../libft/libft.h"
+void	error(void)
+{
+	perror("\033[31mError");
+	exit(EXIT_FAILURE);
+}
 
-void	error(void);
-void	free_all(char ***arr);
-char	*find_path(char *cmd, char **envp);
+void	free_all(char ***arr)
+{
+	int	i;
 
-#endif
+	i = 0;
+	if (!arr)
+		return ;
+	while ((*arr)[i])
+	{
+		free(*arr[i]);
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+}
