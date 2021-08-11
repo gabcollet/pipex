@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 10:30:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/09 15:18:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/11 09:45:52 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*find_path(char *cmd, char **envp)
 	char	*part_path;
 
 	i = 0;
-	paths = ft_split(envp[3] + 5, ':');
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
