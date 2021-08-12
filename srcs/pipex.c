@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 09:54:02 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/09 16:29:41 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/12 15:53:22 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	parent_process(char **argv, char **envp, int *fd)
 	int		fileout;
 	char	**cmd;
 
-	fileout = open(argv[4], O_WRONLY | O_CREAT, 0777);
+	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fileout == -1)
 		error();
 	dup2(fd[0], STDIN_FILENO);
@@ -67,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		printf("\033[31mError: Bad arguments\n\e[0m");
-		printf("Ex: ./pipex file1 cmd1 cmd2 file2\n");
+		ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
+		ft_putstr_fd("Usage: ./pipex <file1> <cmd1> <cmd2> file2\n", 1);
 	}
 	return (0);
 }

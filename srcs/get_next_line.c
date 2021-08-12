@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/02 09:58:35 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/12 15:42:32 by gcollet          ###   ########.fr       */
+/*   Created: 2021/08/12 15:06:56 by gcollet           #+#    #+#             */
+/*   Updated: 2021/08/12 15:11:38 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "../includes/pipex.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include "../libft/libft.h"
+int	get_next_line(char **line)
+{
+	char	*buffer;
+	int		i;
+	int		r;
+	char	c;
 
-void	error(void);
-void	free_all(char ***arr);
-char	*find_path(char *cmd, char **envp);
-int		get_next_line(char **line);
-int		open_file(char *argv, int i);
-void	usage(void);
-
-#endif
+	i = 0;
+	r = 0;
+	buffer = (char *)malloc(10000);
+	if (!buffer)
+		return (-1);
+	r = read(0, &c, 1);
+	while (r && c != '\n' && c != '\0')
+	{
+		if (c != '\n' && c != '\0')
+			buffer[i] = c;
+		i++;
+		r = read(0, &c, 1);
+	}
+	buffer[i] = '\n';
+	buffer[++i] = '\0';
+	*line = buffer;
+	return (r);
+}
