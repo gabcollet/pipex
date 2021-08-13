@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 10:33:51 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/13 12:10:25 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/13 18:13:03 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	here_doc(char *limiter, int argc)
 	int		fd[2];
 	char	*line;
 
-	if (argc != 6)
+	if (argc < 6)
 		usage();
 	if (pipe(fd) == -1)
 		error();
@@ -84,6 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		{
+			i = 3;
 			fileout = open_file(argv[argc - 1], 0);
 			here_doc(argv[2], argc);
 		}
@@ -93,12 +94,11 @@ int	main(int argc, char **argv, char **envp)
 			fileout = open_file(argv[argc - 1], 1);
 			filein = open_file(argv[1], 2);
 			dup2(filein, STDIN_FILENO);
-			while (i < argc - 2)
-				child_process(argv[i++], envp);
 		}
+		while (i < argc - 2)
+			child_process(argv[i++], envp);
 		dup2(fileout, STDOUT_FILENO);
 		execute(argv[argc - 2], envp);
 	}
-	else
-		usage();
+	usage();
 }

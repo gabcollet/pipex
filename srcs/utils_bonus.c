@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 16:01:16 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/13 12:00:09 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/13 18:09:45 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	usage(void)
 {
 	ft_putstr_fd("\033[31mError: Bad argument\n\e[0m", 2);
-	ft_putstr_fd("Usage: ./pipex <file1> <cmd1> <cmd2> <...> file2\n", 1);
-	ft_putstr_fd("       ./pipex here_doc <LIMITER> <cmd> <cmd1> file\n", 1);
+	ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <...> file2\n", 1);
+	ft_putstr_fd("    ./pipex here_doc <LIMITER> <cmd> <cmd1> <...> file\n", 1);
 	exit(EXIT_SUCCESS);
 }
 
