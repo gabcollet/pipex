@@ -6,18 +6,18 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/08 11:07:37 by gcollet           #+#    #+#              #
-#    Updated: 2021/08/12 16:02:25 by gcollet          ###   ########.fr        #
+#    Updated: 2021/08/13 11:34:54 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= pipex.a
 PROG	= pipex
 
-SRCS 	= srcs/pipex.c srcs/utils.c srcs/path.c
+SRCS 	= srcs/pipex.c srcs/utils.c
 OBJS 	= ${SRCS:.c=.o}
 MAIN	= srcs/pipex.c
 
-SRCS_B	= srcs/pipex_bonus.c srcs/utils.c srcs/path.c srcs/get_next_line.c srcs/utils_bonus.c
+SRCS_B	= srcs/pipex_bonus.c srcs/utils.c srcs/utils_bonus.c
 OBJS_B	= ${SRCS_B:.c=.o}
 MAIN_B	= srcs/pipex_bonus.c
 

@@ -6,16 +6,17 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 09:54:02 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/12 15:53:22 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/13 11:58:43 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
+/* Child process that run inside a fork, take the filein, put the output inside
+ a pipe and then close with the exec function */
 void	child_process(char **argv, char **envp, int *fd)
 {
 	int		filein;
-	char	**cmd;
 
 	filein = open(argv[1], O_RDONLY, 0777);
 	if (filein == -1)
@@ -23,16 +24,14 @@ void	child_process(char **argv, char **envp, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(filein, STDIN_FILENO);
 	close(fd[0]);
-	cmd = ft_split(argv[2], ' ');
-	if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
-		error();
-	free_all(&cmd);
+	execute(argv[2], envp);
 }
 
+/* Parent process that take the data from the pipe, change the output for the
+ fileout and also close with the exec function */
 void	parent_process(char **argv, char **envp, int *fd)
 {
 	int		fileout;
-	char	**cmd;
 
 	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fileout == -1)
@@ -40,12 +39,11 @@ void	parent_process(char **argv, char **envp, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fileout, STDOUT_FILENO);
 	close(fd[1]);
-	cmd = ft_split(argv[3], ' ');
-	if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
-		error();
-	free_all(&cmd);
+	execute(argv[3], envp);
 }
 
+/* Main function that run the child and parent process or display an error
+ message if arguments are wrong */
 int	main(int argc, char **argv, char **envp)
 {
 	int	fd[2];

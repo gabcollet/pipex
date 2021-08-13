@@ -6,15 +6,17 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 10:33:51 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/12 15:59:12 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/08/13 12:10:25 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
+/* Child process that create a fork and a pipe, put the output inside a pipe
+ and then close with the exec function. The main process will change his stdin
+ for the pipe file descriptor. */
 void	child_process(char *argv, char **envp)
 {
-	char	**cmd;
 	pid_t	pid;
 	int		fd[2];
 
@@ -27,10 +29,7 @@ void	child_process(char *argv, char **envp)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		cmd = ft_split(argv, ' ');
-		if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
-			error();
-		free_all(&cmd);
+		execute(argv, envp);
 	}
 	else
 	{
@@ -40,16 +39,9 @@ void	child_process(char *argv, char **envp)
 	}
 }
 
-void	parent_process(int argc, char **argv, char **envp)
-{
-	char	**cmd;
-
-	cmd = ft_split(argv[argc - 2], ' ');
-	if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
-		error();
-	free_all(&cmd);
-}
-
+/* Function who make a child process that will read from the stdin with
+ get_next_line until it find the limiter word and then put the output inside a
+ pipe. The main process will change his stdin for the pipe file descriptor. */
 void	here_doc(char *limiter, int argc)
 {
 	pid_t	reader;
@@ -79,6 +71,9 @@ void	here_doc(char *limiter, int argc)
 	}
 }
 
+/* Main function that run the childs process with the right file descriptor
+ or display an error message if arguments are wrong. It will run here_doc
+ function if the "here_doc" string is find in argv[1] */
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;
@@ -102,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 				child_process(argv[i++], envp);
 		}
 		dup2(fileout, STDOUT_FILENO);
-		parent_process(argc, argv, envp);
+		execute(argv[argc - 2], envp);
 	}
 	else
 		usage();
