@@ -1,7 +1,9 @@
 # pipex
 **Pipex project school 42**
 
-![Pipex](https://i.ibb.co/yRBnd63/Capture-d-e-cran-le-2021-08-16-a-17-00-53.png)
+<p align="center">
+  <img width="820" height="180" src="https://i.ibb.co/yRBnd63/Capture-d-e-cran-le-2021-08-16-a-17-00-53.png">
+</p>
 
 This program takes the infile, outfile to redirect the STDIN (<), STDOUT (>) and 2 commands to pipe. To execute the mandatory program, type the command listed below. The arguments will be processed as same as < infile cmd1 | cmd2 > outfile on the shell.
 ```
