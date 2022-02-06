@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 10:37:42 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/11 14:09:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2022/02/06 10:00:40 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ temporaire vers dest.  */
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	size_t			i;
 	char			*str_dest;
 	char			*str_src;
 
 	str_dest = (char *)dest;
 	str_src = (char *)src;
-	i = 0;
 	if (str_dest > str_src)
 	{
 		while (n--)

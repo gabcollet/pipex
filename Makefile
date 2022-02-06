@@ -6,12 +6,12 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/08 11:07:37 by gcollet           #+#    #+#              #
-#    Updated: 2021/08/13 11:34:54 by gcollet          ###   ########.fr        #
+#    Updated: 2022/02/06 10:24:56 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	= pipex.a
 PROG	= pipex
+PROG_B  = pipex_bonus
 
 SRCS 	= srcs/pipex.c srcs/utils.c
 OBJS 	= ${SRCS:.c=.o}
@@ -21,7 +21,7 @@ SRCS_B	= srcs/pipex_bonus.c srcs/utils.c srcs/utils_bonus.c
 OBJS_B	= ${SRCS_B:.c=.o}
 MAIN_B	= srcs/pipex_bonus.c
 
-HEADER	= -I./includes/
+HEADER	= -Iincludes
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror -g
@@ -29,23 +29,22 @@ CFLAGS 	= -Wall -Wextra -Werror -g
 .c.o:		%.o : %.c
 					@gcc ${CFLAGS} ${HEADER} -c $< -o $(<:.c=.o)
 
-$(NAME):	${OBJS}
+all: 		${PROG}
+
+${PROG}:	${OBJS}
 					@echo "\033[33m----Compiling lib----"
 					@make re -C ./libft
-					@cp libft/libft.a ./$(NAME)
-					@ar -rcs ${NAME} ${OBJS}
-					@$(CC) $(NAME) ${MAIN} -o ${PROG}
+					@$(CC) ${OBJS} -Llibft -lft -o ${PROG}
 					@echo "\033[32mPipex Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
-all: 		${NAME}
 
-bonus:		${OBJS_B}
+bonus:		${PROG_B}
+
+${PROG_B}:	${OBJS_B}
 					@echo "\033[33m----Compiling lib----"
 					@make re -C ./libft
-					@cp libft/libft.a ./$(NAME)
-					@ar -rcs ${NAME} ${OBJS_B}
-					@$(CC) $(NAME) ${MAIN_B} -o ${PROG}
-					@echo "\033[32mPipex Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
+					@$(CC) ${OBJS_B} -Llibft -lft -o ${PROG_B}
+					@echo "\033[32mPipex Bonus Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
 clean:
 					@make clean -C ./libft
@@ -58,6 +57,8 @@ fclean: 	clean
 					@echo "\n\033[31mDeleting EVERYTHING! ⌐(ಠ۾ಠ)¬\n"
 
 re:			fclean all
+
+re_bonus:	fclean bonus
 
 party:
 					@printf "\033c"
@@ -72,4 +73,4 @@ party:
 					@printf "\033c"
 					@echo "\033[34m♪┗(・o･)┓♪\n"
 
-.PHONY: all clean fclean re bonus party
+.PHONY: all clean fclean re re_bonus bonus party

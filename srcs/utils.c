@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/13 12:14:54 by gcollet          ###   ########.fr       */
+/*   Updated: 2022/02/06 13:58:34 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ char	*find_path(char *cmd, char **envp)
 		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
+		free(path);
 		i++;
 	}
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
 	return (0);
 }
 
@@ -50,9 +55,20 @@ void	error(void)
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-
+	int 	i;
+	char	*path;
+	
+	i = -1;
 	cmd = ft_split(argv, ' ');
-	if (execve(find_path(cmd[0], envp), cmd, envp) == -1)
+	path = find_path(cmd[0], envp);
+	if (!path)	
+	{
+		while (cmd[++i])
+			free(cmd[i]);
+		free(cmd);
+		error();
+	}
+	if (execve(path, cmd, envp) == -1)
 		error();
 }
 

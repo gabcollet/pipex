@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/11 12:58:26 by gcollet           #+#    #+#              #
-#    Updated: 2021/07/29 11:06:02 by gcollet          ###   ########.fr        #
+#    Updated: 2022/02/06 10:04:07 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ OBJS 	= ${SRCS:.c=.o}
 SRCS_B	= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 OBJS_B	= ${SRCS_B:.c=.o}
-HEADER	= libft.h
+HEADER	= ./
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror
 
-.c.o:		%.o : %.c libft.h
+.c.o:		%.o : %.c
 					@${CC} ${CFLAGS} -I ${HEADER} -c $< -o $(<:.c=.o)
 
 $(NAME):	${OBJS}
